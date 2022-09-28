@@ -1,11 +1,12 @@
 from django.db import models
-from phone_field import PhoneField
+from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
 class CustomUser(AbstractUser):
-    phone_number = PhoneField(null=True, blank=True, help_text='Your Phone Number', max_length=10)
+    full_name = models.CharField(null=True, blank=True, max_length=30)
+    phone_number = PhoneNumberField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
