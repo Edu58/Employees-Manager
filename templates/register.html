@@ -1,20 +1,53 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
+{% load static %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/register.css' %}">
+{% endblock styles %}
 
 {% block title %}
 register
 {% endblock title %}
 
 {% block content %}
-<div class="container">
-    <form action="register/" method="post" class="form">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        {% buttons %}
-        <button type="submit" class="btn btn-primary">
-            Submit
-        </button>
-        {% endbuttons %}
-    </form>
+<div class="bg min-vh-100">
+    <div class="container pt-5">
+        <div class="card rounded-0">
+            <div class="card-body">
+
+                <div class="fs-4 text-primary pb-4">
+                    Create Account
+                </div>
+
+                <form action="{% url 'register' %}" method="post" class="form">
+                    {% csrf_token %}
+
+                    <div class="left-col">
+                        {% bootstrap_field form.full_name placeholder='' %}
+                        {% bootstrap_field form.phone_number placeholder='' %}
+                        {% bootstrap_field form.password1 placeholder='' %}
+                    </div>
+
+                    <div class="right-col">
+                        {% bootstrap_field form.email placeholder='' %}
+                        {% bootstrap_field form.username placeholder='' %}
+                        {% bootstrap_field form.password2 placeholder='' %}
+                    </div>
+
+                    {% buttons %}
+                    <button type="submit" class="btn btn-primary w-50 rounded-0">
+                        CREATE ACCOUNT
+                    </button>
+                    {% endbuttons %}
+                </form>
+
+                <p>
+                    Already have an account? <a href="{% url 'login' %}">Sign In</a>
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock content %}
