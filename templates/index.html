@@ -1,12 +1,91 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
+{% load static %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/index.css' %}">
+{% endblock styles %}
 
 {% block title %}
-    Homepage
+Homepage
 {% endblock title %}
 
 {% block content %}
-<div>
-    hELLO THERE YOU HOMEPAGE
+<div class="container">
+    <div class="card min-vh-100">
+        <div class="card-header text-light">Employees</div>
+
+        <div class="card-body">
+            <div class="choices d-flex mb-4">
+                <button class="btn me-3 btn-warning d-flex align-items-center"><i
+                        class='bx bx-plus fs-4'></i>Add</button>
+                <button class="btn me-3 btn-primary d-flex align-items-center"><i
+                        class='bx bxs-edit fs-4'></i>Edit</button>
+                <button class="btn me-3 btn-success d-flex align-items-center"><i
+                        class='bx bxs-save fs-4'></i>Save</button>
+                <button class="btn me-3 btn-dark d-flex align-items-center"><i
+                        class='bx bx-refresh fs-4'></i>Refresh</button>
+                <button class="btn me-3 btn-danger d-flex align-items-center"><i
+                        class='bx bxs-x-circle fs-4'></i>Exit</button>
+            </div>
+
+            <div class="show d-flex align-items-center mb-3">
+                <span>Show</span>
+                <input type="number" class="form-control w-25 mx-2 shadow-none" name="pages" id="pages">
+                <span>entries</span>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">S.NO.</th>
+                        <th scope="col"><span><i class='bx bx-up-arrow-alt'></i></span> <i
+                                class='bx bx-down-arrow-alt'></i>Initial
+                        </th>
+                        <th scope="col"><i class='bx bx-up-arrow-alt'></i> <i class='bx bx-down-arrow-alt'></i>Status
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="pt-4">
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Larry the Bird</td>
+                        <td>@twitter</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-between">
+                <p>
+                    Showing 1 to 3 entries
+                </p>
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item active" aria-current="page">
+                            <a class="page-link" href="#">2</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock content %}
