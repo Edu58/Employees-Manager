@@ -8,3 +8,12 @@ class RegisterForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ['full_name', 'email', 'phone_number', 'username', 'password1', 'password2']
+
+
+class LoginUser(forms.Form):
+    username = forms.CharField(label='Username', required=True)
+    password = forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
+
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'password']

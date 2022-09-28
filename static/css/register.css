@@ -20,3 +20,7 @@
 .card .card-body form #id_password1 {
     margin-bottom: 4rem;
 }
+
+.card form button {
+    background-color: rgba(6, 6, 102, 0.836);
+}

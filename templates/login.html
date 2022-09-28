@@ -1,12 +1,46 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
+{% load static %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock styles %}
 
 {% block title %}
 Login
 {% endblock title %}
 
 {% block content %}
-<div class="container">
-    <h1>Login</h1>
+<div class="bg min-vh-100">
+    <div class="container pt-5">
+        <div class="card rounded-0">
+            <div class="card-header fs-4 text-light">
+                Login
+            </div>
+            <div class="card-body">
+
+                <form action="{% url 'login' %}" method="post" class="form">
+                    {% csrf_token %}
+
+                    {% bootstrap_field form.username placeholder='' %}
+                    {% bootstrap_field form.password placeholder='' %}
+
+                    <div class="forgot text-end mt-1">
+                        <a href="" class="text-decoration-none">Forgot Password</a>
+                    </div>
+
+                    {% buttons %}
+                    <button type="submit" class="btn text-center mt-5 text-light d-flex mx-auto rounded-0">
+                        LET ME IN
+                    </button>
+                    {% endbuttons %}
+                </form>
+
+                <p class="text-center">New Here? <a href="{% url 'register' %}" class="text-decoration-none">Sign Up</a>
+                </p>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock content %}

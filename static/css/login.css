@@ -1,0 +1,19 @@
+.bg {
+    background: linear-gradient(180deg, #298360 50%, #ffffff 50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    max-width: 32rem;
+    margin: auto;
+}
+
+.card .card-header {
+    background-color: #298360;
+}
+
+.card form button {
+    background-color: rgba(6, 6, 102, 0.836);
+}
