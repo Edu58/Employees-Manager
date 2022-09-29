@@ -19,7 +19,11 @@ class CustomUser(AbstractUser):
         return self.email
 
 class Department(models.Model):
-    name = models.CharField(null=False, blank=False, max_length=30)
+    name = models.CharField(unique=True, null=False, blank=False, max_length=30)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
 
     def __str__(self) -> str:
         return self.name
@@ -30,13 +34,27 @@ STATUS_CHOICES = (
     ("Inactive", "Inactive")
 )
 
+class Initial(models.Model):
+    name = models.CharField(unique=True, null=False, blank=False, max_length=5)
+    status = models.CharField(choices=STATUS_CHOICES, default="Inactive", max_length=8)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self) -> str:
+        return self.name
+
 class Employee(models.Model):
+    initial = models.ForeignKey(Initial, on_delete=models.CASCADE)
     name = models.CharField(null=False, blank=False, max_length=30)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
-    salary = models.PositiveIntegerField(null=False, blank=False)
-    doj = models.DateTimeField(auto_now_add=True)
+    salary = models.FloatField(null=False, blank=False)
     address = models.CharField(null=False, blank=False, max_length=80)
-    status = models.CharField(choices=STATUS_CHOICES, default="Inactive", max_length=8)
+    doj = models.DateField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-doj']
 
     def __str__(self) -> str:
         return self.name

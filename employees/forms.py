@@ -1,4 +1,4 @@
-from .models import CustomUser
+from .models import CustomUser, Employee, Initial, Department
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
@@ -17,3 +17,18 @@ class LoginUser(forms.Form):
     class Meta:
         model = CustomUser
         fields = ['username', 'password']
+
+class AddInitialForm(forms.ModelForm):
+    class Meta:
+        model = Initial
+        fields='__all__'
+
+class AddEmployeeForm(forms.ModelForm):
+    class Meta:
+        model = Employee
+        fields = '__all__'
+
+class AddDepartmentForm(forms.ModelForm):
+    class Meta:
+        model = Department
+        fields= '__all__'

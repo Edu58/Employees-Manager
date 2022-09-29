@@ -4,23 +4,24 @@
 
 {% block styles %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'css/index.css' %}">
+<link rel="stylesheet" href="{% static 'css/departments.css' %}">
 {% endblock styles %}
 
 {% block title %}
-Home
+Departments
 {% endblock title %}
 
 {% block content %}
 <div class="container">
     <div class="card min-vh-100">
-        <div class="card-header text-light">Initials</div>
+        <div class="card-header text-light">Departments
+        </div>
 
         <div class="card-body">
             <div class="choices d-flex mb-4">
                 <button type="button" class="btn me-3 btn-warning d-flex align-items-center" data-bs-toggle="modal"
                     data-bs-target="#add"><i class='bx bx-plus fs-4'></i>Add</button>
-                <a href="{% url 'home' %}" class="text-decoration-none text-light">
+                <a href="{% url 'departments' %}" class="text-decoration-none text-light">
                     <button type="button" class="btn me-3 btn-dark d-flex align-items-center"><i
                             class='bx bx-refresh fs-4'></i>Refresh</button>
                 </a>
@@ -35,9 +36,9 @@ Home
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="{% url 'home' %}" method="post">
+                            <form action="{% url 'departments' %}" method="post">
                                 {% csrf_token %}
-                                {% bootstrap_form addinitialform %}
+                                {% bootstrap_form add_department_form %}
                                 {% buttons %}
                                 <button type="submit" class="btn btn-success float-end">
                                     Save
@@ -60,27 +61,24 @@ Home
                     <tr>
                         <th scope="col">S.NO.</th>
                         <th scope="col"><span><i class='bx bx-up-arrow-alt'></i></span> <i
-                                class='bx bx-down-arrow-alt'></i>Initial
-                        </th>
-                        <th scope="col"><i class='bx bx-up-arrow-alt'></i> <i class='bx bx-down-arrow-alt'></i>Status
+                                class='bx bx-down-arrow-alt'></i>Name
                         </th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody class="pt-4">
-                    {% for initial in initials %}
+                    {% for department in departments %}
                     <tr>
                         <th scope="row">{{ forloop.counter }}</th>
-                        <td>{{initial.name}}</td>
-                        <td>{{initial.status | lower}}</td>
+                        <td>{{department.name}}</td>
                         <td class="d-flex">
-                            <a href="{% url 'update_initial' initial.id %}" class="text-decoration-none text-light">
+                            <a href="{% url 'update_department' department.id %}" class="text-decoration-none text-light">
                                 <button type="button" class="btn btn-sm btn-primary me-1">
                                     <i class='bx bxs-edit'></i>
                                 </button>
                             </a>
 
-                            <a href="{% url 'delete_initial' initial.id %}" class="text-decoration-none text-light">
+                            <a href="{% url 'delete_department' department.id %}" class="text-decoration-none text-light">
                                 <button type="button" class="btn btn-sm btn-danger">
                                     <i class='bx bxs-trash'></i>
                                 </button>
