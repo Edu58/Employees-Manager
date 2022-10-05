@@ -1,19 +1,23 @@
 .bg {
     background: linear-gradient(180deg, #298360 50%, #ffffff 50%);
+}
+
+.bg .container {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 100vh;
 }
 
-.card {
-    max-width: 32rem;
+.bg .container .card {
+    min-width: 32rem;
     margin: auto;
 }
 
-.card .card-header {
+.bg .container .card .card-header {
     background-color: #298360;
 }
 
-.card form button {
+.bg .container .card form button {
     background-color: rgba(6, 6, 102, 0.836);
 }

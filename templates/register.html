@@ -13,6 +13,9 @@ register
 
 {% block content %}
 <div class="bg min-vh-100">
+    <span class="text-center">
+        {% bootstrap_form_errors form %}
+    </span>
     <div class="container pt-5">
         <div class="card rounded-0">
             <div class="card-body">
