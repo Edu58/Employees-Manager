@@ -13,7 +13,48 @@ Employees
 {% endblock title %}
 
 {% block content %}
-<div class="container">
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header text-light">
+            Filter
+        </div>
+        <div class="card-body">
+            <form action="{% url 'employees' %}" method="get">
+                <div class="mb-3">
+                    <label for="department" class="form-label">Department</label>
+                    <select class="form-select" name="department">
+                        <option selected></option>
+                        {% for department in departments %}
+                        <option value="{{department.name}}">{{department.name}}</option>
+                        {% empty %}
+                        <option selected disabled>No departments found</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="salary" class="form-label">Salary</label>
+                    <div class="d-flex">
+                        <input type="number" name="from_salary" value="0" class="form-control" id="salary"
+                            placeholder="from" step="0.001">
+                        <input type="number" name="to_salary" value="0" class="form-control" id="salary"
+                            placeholder="to" step="0.001">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="doj" class="form-label">DOJ</label>
+                    <div class="d-flex">
+                        <input type="date" name="from_doj" class="form-control" id="doj" placeholder="from">
+                        <input type="date" name="to_doj" class="form-control" id="doj" placeholder="to">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success w-100">
+                    <i class='bx bx-filter-alt'></i>Filter
+                </button>
+            </form>
+        </div>
+    </div>
+
     <div class="card min-vh-100">
         <div class="card-header text-light" style="background-color: rgba(6, 6, 102, 0.836) !important;">Departments
         </div>
@@ -51,12 +92,15 @@ Employees
                 </div>
             </div>
 
-            <div class="show d-flex align-items-center mb-3">
-                <span>Show</span>
-                <input type="number" class="form-control w-25 mx-2 shadow-none" name="pages" id="pages">
-                <span>entries</span>
+            <div class="show d-flex mb-3 justify-content-between">
+                <div class="d-flex align-items-center">
+                    <span>Show</span>
+                    <input type="number" class="form-control w-25 mx-2 shadow-none" name="pages" id="pages">
+                    <span>entries</span>
+                </div>
             </div>
 
+            {% if employees %}
             <table class="table">
                 <thead>
                     <tr>
@@ -66,6 +110,9 @@ Employees
                         </th>
                         <th scope="col"><span><i class='bx bx-up-arrow-alt'></i></span> <i
                                 class='bx bx-down-arrow-alt'></i>Department
+                        </th>
+                        <th scope="col"><span><i class='bx bx-up-arrow-alt'></i></span> <i
+                                class='bx bx-down-arrow-alt'></i>Salary
                         </th>
                         <th scope="col"><span><i class='bx bx-up-arrow-alt'></i></span> <i
                                 class='bx bx-down-arrow-alt'></i>DOJ
@@ -79,6 +126,7 @@ Employees
                         <th scope="row">{{ forloop.counter }}</th>
                         <td>{{employee.name}}</td>
                         <td>{{employee.department.name}}</td>
+                        <td>{{employee.salary}}</td>
                         <td>{{employee.doj}}</td>
                         <td class="d-flex">
                             <a href="{% url 'update_employee' employee.id %}" class="text-decoration-none text-light">
@@ -94,31 +142,40 @@ Employees
                             </a>
                         </td>
                     </tr>
-                    {% empty %}
-                    <em><strong>0 employees found</strong></em>
                     {% endfor %}
                 </tbody>
             </table>
-            <div class="d-flex justify-content-between">
-                <p>
-                    Showing 1 to 3 entries
-                </p>
+            <div class="float-end">
                 <nav>
                     <ul class="pagination">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                        <li class="page-item {% if not employees.has_previous %} disabled {% endif %}">
+                            {% if employees.has_previous %}
+                            <a href="?page={{employees.previous_page_number}}" class="page-link" tabindex="-1"
+                                aria-disabled="true">Previous</a>
+                            {% else %}
+                            <a class="page-link" tabindex="-1" aria-disabled="true">Previous</a>
+                            {% endif %}
                         </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
                         <li class="page-item active" aria-current="page">
-                            <a class="page-link" href="#">2</a>
+                            <a class="page-link">{{employees.number}}</a>
                         </li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
+                        
+                        <li class="page-item {% if not employees.has_next %} disabled {% endif %}">
+                            {% if employees.has_next %}
+                            <a href="?page={{employees.next_page_number}}" class="page-link">Next</a>
+                            {% else %}
+                            <a class="page-link">Next</a>
+                            {% endif %}
                         </li>
+                        
                     </ul>
                 </nav>
             </div>
+            {% else %}
+            <div class="text-center fs-3 mt-4">
+                <strong>0 employees found</strong>
+            </div>
+            {% endif %}
         </div>
     </div>
 </div>

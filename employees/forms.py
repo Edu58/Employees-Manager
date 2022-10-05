@@ -24,6 +24,7 @@ class AddInitialForm(forms.ModelForm):
         fields='__all__'
 
 class AddEmployeeForm(forms.ModelForm):
+    doj = forms.DateField(widget=forms.SelectDateWidget(years=range(1980, 2023)))
     class Meta:
         model = Employee
         fields = '__all__'

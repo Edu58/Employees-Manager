@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate
 from .forms import RegisterForm, LoginUser, AddEmployeeForm, AddInitialForm, AddDepartmentForm
 from .models import Department, Employee, Initial
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 # Create your views here.
 def register(request):
@@ -37,6 +38,9 @@ def login_user(request):
 def home(request):
     form = AddInitialForm
     initials = Initial.objects.all()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(initials, 10)
+    page_obj = paginator.get_page(page)
 
     if request.method == "POST":
         form = AddInitialForm(request.POST)
@@ -45,7 +49,7 @@ def home(request):
             form.save()
             return redirect('home')
 
-    return render(request, 'index.html', {'initials': initials, 'addinitialform': form})
+    return render(request, 'index.html', {'initials': page_obj, 'addinitialform': form})
     
 
 @login_required(login_url='login')
@@ -76,6 +80,9 @@ def delete_initial(request, id):
 def departments(request):
     form = AddDepartmentForm
     departments = Department.objects.all()
+    page = request.GET.get('page', 1)
+    paginator = Paginator(departments, 10)
+    page_obj = paginator.get_page(page)
 
     if request.method == "POST":
         form = AddDepartmentForm(request.POST)
@@ -84,7 +91,7 @@ def departments(request):
             form.save()
             return redirect('departments')
 
-    return render(request, 'departments.html', {'departments': departments, 'add_department_form': form})
+    return render(request, 'departments.html', {'departments': page_obj, 'add_department_form': form})
 
 @login_required(login_url='login')
 def update_department(request, id):
@@ -112,16 +119,31 @@ def delete_department(request, id):
 @login_required(login_url='login')
 def employees(request):
     form = AddEmployeeForm
-    employees = Employee.objects.all()
 
     if request.method == "POST":
         form = AddEmployeeForm(request.POST)
-
         if form.is_valid():
             form.save()
             return redirect('employees')
+    else:
+        dp = request.GET.get('department')
+        fs = request.GET.get('from_salary')
+        ts = request.GET.get('to_salary')
+        fdoj = request.GET.get('from_doj')
+        tdoj = request.GET.get('to_doj')
 
-    return render(request, 'employees.html', {'employees': employees, 'add_employee_form': form})
+        if dp or fs or ts or fdoj or tdoj :
+            employees = Employee.search_employee(dp=dp, fs=fs, ts=ts, fdoj=fdoj, tdoj=tdoj)
+            departments = Department.objects.all()
+            return render(request, 'employees.html', {'employees': employees, 'departments': departments, 'add_employee_form': form})
+        else:
+            departments = Department.objects.all()
+
+            employees = Employee.objects.all()
+            page = request.GET.get('page', 1)
+            paginator = Paginator(employees, 10)
+            page_obj = paginator.get_page(page)
+            return render(request, 'employees.html', {'employees': page_obj, 'departments': departments, 'add_employee_form': form})
 
 @login_required(login_url='login')
 def update_employee(request, id):

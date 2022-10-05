@@ -1,3 +1,8 @@
+.container-fluid {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+}
+
 .card .card-header {
     background-color: rgba(6, 6, 102, 0.836) !important;
 }
